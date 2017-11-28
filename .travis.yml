@@ -1,0 +1,29 @@
+language: python
+python:
+  # This should match the version used in hyperterm-hardware
+  - "3.5.3"
+
+notifications:
+  email: false
+  irc: "chat.freenode.net#hyperterm-dev"
+
+env:
+  - "TOXENV=py35,docs,lint"
+install:
+  - pip install tox-travis
+script:
+  - tox
+
+deploy:
+  - provider: pypi
+    on:
+      tags: true
+    user: mikeanthonywild
+    password:
+      secure: "Kysr5YeDWcE5PL9ZZRtRIMD3Uxij3SGyfclQJozGWCbvHXGgFueTE+qOHi2lyQxkV45ugxhI+EtsfMdLAVzm8Y7Vdt4I+6P/3vFAJHae1HO2fxhmM6oU2ti8t6gmqpWWckLF40Rp9JEpTBQPdMExBjSU/Xb0QRv3DlRbDM9DtUdjyGEY+t9I3X1psugDqiAsyZdF6bxVlV1xEv8sB7K2BLmgHNRsRSC0Cq62V83F4c97R6dotAScBqdbUdfZe6V+lypaVtLBoiHeO+ziy2PDqlgCYG1oNk1B/GrvtV5DkezUsEkTkRWUtz1uDZCzNIz93uI7G+nX4E9ZU0aLQVAYsNJsm4GysaJ6gf3oKOmkgpp0StQJUX16bcufZrmZqagu0DEMaz6GUUQSD4BABGM0u885Tgvz672rAkDqGBVWuS/Ykvkj2Lj7mfQdTFmkSb5egLq/RQsnkj4bg0k60XeXONRW5HTlHJ4bxmjdrW7NwHe+APxcJNmoIuQjHgEnTF6XFdPV6BPNWLjyzvZVC29KU1c+Nfza5m014bQ+rLai7XnQMDGpuvvK9qWa7vTztdzoALC6yPScABQjH3V3JH3DE/I4fMo/vOEZtn4U+sRT5JtMuKFHczcZimpJQg7O//1TiF0QV/pmnm9FJAzQxhgNrT92webFKYMj7rZMGuKU2No="
+  - provider: pages
+    local_dir: docs/_build/html
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN
+    on:
+      branch: master 
