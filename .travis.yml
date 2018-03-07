@@ -7,12 +7,15 @@ notifications:
   email: false
   irc: "chat.freenode.net#hyperterm-dev"
 
-env:
-  - "TOXENV=py35,docs,lint"
 install:
-  - pip install tox-travis
+  - pip install pipenv --upgrade
 script:
-  - tox
+  # --deploy fails build if lockfile is out of date
+  - pipenv install --dev --deploy
+  - pipenv run pytest --cov hyperterm tests
+  - pipenv run codecov
+  - pipenv run flake8 hyperterm
+  - pipenv run sphinx-build -W -b html docs docs/_build/html
 
 deploy:
   - provider: pypi
