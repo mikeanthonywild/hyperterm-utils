@@ -6,9 +6,11 @@ A good first step is to read the [contributing guide](https://github.com/mikeant
 
 All PRs must pass the CI tests. You *should* run the test suite before submitting a PR. To do this simply run `tox`, which will build the package and install it into a virtualenv before running the test suite. It will also build the documentation.
 
-### Dependency Pinning
+### Dependency Management with Pipenv
 
-To ensure reproducible builds, all dependencies should be pinned in the `requirements.txt` file. To aid in this, the `pip-compile` command can be used (part of `pip-tools`) to resolve the dependencies listed in `setup.py` and freeze them to pinned versions. The subsequent `requirements.txt` should be used by Tox during testing to ensure the results are reproducible.
+To ensure reproducible builds, all dependencies should be pinned in the `Pipfile.lock` file, which is generated using [Pipenv](https://pipenv.org). It is important to *freeze* your dependencies when installing local dev packages (`pipenv install --dev <package>`) or modifying the `install_requires` dependencies in `setup.py`. Running `pipenv lock` resolves all dependencies (abstract and concrete) and freezes them to pinned versions, which it saves in `Pipfile.lock`. The subsequent `Pipfile.lock` should be used by Travis during testing to ensure the results are reproducible. Changes to `Pipfile` or `Pipfile.lock` should be committed.
+
+To learn more about this process, it is recommended that you read the [Pipenv documentation](https://docs.pipenv.org/basics/).
 
 ### Release Process
 
